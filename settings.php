@@ -1,60 +1,41 @@
 <?php
 
-# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-   WIJZIG ONDERSTAANDE  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-$settings['nntp_nzb']['host'] = 'news.ziggo.nl';	# <== Geef hier je nntp server in
-$settings['nntp_nzb']['user'] = 'xx';				# <== Geef hier je username in
-$settings['nntp_nzb']['pass'] = 'yy';				# <== Geef hier je password in
-$settings['nntp_nzb']['enc'] = false; 				# <== false|'tls'|'ssl', defaults to false.
-$settings['nntp_nzb']['port'] = 119; 				# <== set to 563 in case of encryption
+# Waar is SpotWeb geinstalleerd (voor de buitenwereld), deze link is nodig voor zaken als de RSS feed en de 
+# sabnzbd integratie. Let op de afsluitende slash "/"!
+if (isset($_SERVER['SERVER_PROTOCOL'])) {
+    $settings['spotweburl'] = (@$_SERVER['HTTPS'] == 'on' ? 'https' : 'http') . '://' . @$_SERVER['HTTP_HOST'] . (dirname($_SERVER['PHP_SELF']) != '/' && dirname($_SERVER['PHP_SELF']) != '\\' ? dirname($_SERVER['PHP_SELF']). '/' : '/');	
+} else {
+	$settings['spotweburl'] = 'http://mijnuniekeservernaam/spotweb/';
+} # if
 
-# =-=-=-=-=-=-=-=- Als je een aparte 'headers' newsserver nodig hebt, uncomment dan volgende =-=-=-=-=-=-=-=-=-
-$settings['nntp_hdr']['host'] = '';					# <== Geef hier je nntp server voor headers in, maar enkel als dit nodig is
-$settings['nntp_hdr']['user'] = '';
-$settings['nntp_hdr']['pass'] = '';
-$settings['nntp_hdr']['enc'] = false;				# <== false|'tls'|'ssl', defaults to false.
-$settings['nntp_hdr']['port'] = 119;				# <== set to 563 in case of encryption
+# Waar staat je OpenSSL.cnf ? Deze file moet leesbaar zijn voor de webserver als je de OpenSSL
+# extensie geinstalleerd hebt
+$settings['openssl_cnf_path'] = "lib/openssl/openssl.cnf";
 
-# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# Cookie host
+if (isset($_SERVER['HTTP_HOST'])) {
+	// Strip leading periods
+	$cookie_domain = ltrim($_SERVER['HTTP_HOST'], '.');
 
-// version
-define('VERSION', '0.3a');
+	// Strip www.
+	if (strpos($cookie_domain, 'www.') === 0) {
+		$cookie_domain = substr($cookie_domain, 4);
+	}
 
-// settings 
-$settings['hdr_group'] = 'free.pt';
-$settings['nzb_group'] = 'alt.binaries.ftd';
-$settings['comment_group'] = 'free.usenet';
+	//Strip port numbers
+	$cookie_domain = explode(':', $cookie_domain);
+	$cookie_domain = '.' . $cookie_domain[0];
+} # if
 
-// db
-$settings['db']['engine'] = 'sqlite3'; 			# <== keuze uit sqlite3 en mysql
-$settings['db']['path'] = './nntpdb.sqlite3';	# <== als je geen SQLite3 gebruikt, kan dit weg	
+// Per RFC 2109, cookie domains must contain at least one dot other than the
+// first. For hosts such as 'localhost' or IP Addresses we don't set a cookie domain.
+if (isset($cookie_domain) && count(explode('.', $cookie_domain)) > 2 && !filter_var(ltrim($cookie_domain, '.'), FILTER_VALIDATE_IP)) {
+	$settings['cookie_host'] = $cookie_domain;
+	unset($cookie_domain);
+} else {
+	$settings['cookie_host'] = '';
+} # else
 
-# Als je MySQL wilt gebruiken, vul dan onderstaande in
-#$settings['db']['engine'] = 'mysql';
-#$settings['db']['host'] = 'localhost';
-#$settings['db']['dbname'] = 'spotweb';
-#$settings['db']['user'] = 'spotweb';
-#$settings['db']['pass'] = 'spotweb';
-
-# welke database engine willen we gebruiken?
-
-# waar moeten ew de templates vinden?
-$settings['tpl_path'] = './templates/';
-
-# tonen we een update knop in de web ui?
-$settings['show_updatebutton'] = false;
-
-# toon een download-nzb knop op het overzicht?
-$settings['show_nzbbutton'] = true;
-
-# integratie met sabnzbd+? uncomment als dit gewenst is
-#$settings['sabnzbd']['host'] = '192.168.10.122:8081';					# <== Pas deze aan naar de sabnzbd host plus port
-#$settings['sabnzbd']['apikey'] = '906e38e971fbf8175303a43569d4f151';	# <== Pas deze aan naar jouw sabnzbd api key
-#$settings['sabnzbd']['spotweburl'] = 'http://server/spotweb/';			# <== URL naar spotweb, gezien vanuit de Sabnzbd machine
-#$settings['sabnzbd']['url'] = 'http://$SABNZBDHOST/sabnzbd/api?mode=addurl&amp;name=$NZBURL&nzbname=$SPOTTITLE&cat=$SANZBDCAT&apikey=$APIKEY'; # <== Hoef je niet aan te passen
 # vertaal de categorieen uit spots (zie SpotCategories.php) naar sabnzbd categorieen
 $settings['sabnzbd']['categories'] = Array(
 		0	=> Array('default' 	=> "movies",				# Default categorie als niets anders matched
@@ -81,40 +62,89 @@ $settings['sabnzbd']['categories'] = Array(
 					 'a15'		=> 'pda')
 	);
 					 
-					 
-					 
-
-# zoekmachine url (gebruikt bij spots voor 24 november als download knop, en onderaan de spot info)
-$settings['search_url'] = 'http://www.binsearch.info/?adv_age=&q=$SPOTFNAME';
-# $settings['search_url'] = 'http://nzbindex.nl/search/?q=$SPOTFNAME';
-
-# de filter die standaard gebruikt wordt op de index pagina (als er geen filters oid opgegeven zijn), 
-# zorg dat deze wel gedefinieerd is.
-$settings['index_filter'] = array();
-
-# als je standaard geen erotiek wilt op de index, uncomment dan volgende filter, je kan wel erotiek vinden door te zoeken
-# $settings['index_filter'] = array('cat' => array('0' => array('a!d23', 'a!d24', 'a!d25', 'a!d26')));
-
-// RSA keys
-$settings['rsa_keys'] = array();
-$settings['rsa_keys'][2] = array('modulo' => 'ys8WSlqonQMWT8ubG0tAA2Q07P36E+CJmb875wSR1XH7IFhEi0CCwlUzNqBFhC+P',
-								 'exponent' => 'AQAB');
-$settings['rsa_keys'][3] = array('modulo' => 'uiyChPV23eguLAJNttC/o0nAsxXgdjtvUvidV2JL+hjNzc4Tc/PPo2JdYvsqUsat',
-								 'exponent' => 'AQAB');
-$settings['rsa_keys'][4] = array('modulo' => '1k6RNDVD6yBYWR6kHmwzmSud7JkNV4SMigBrs+jFgOK5Ldzwl17mKXJhl+su/GR9',
-								 'exponent' => 'AQAB');
-
-# Include eventueel eigen settings, dit is ook een PHP file die settings die 
-# hierin staan override (moet in de parent directory staan). Kan vooral handig zijn bij 
-# upgrades van SpotWeb zodat je eigen settings bewaard blijven.
 #
-if (file_exists('../ownsettings.php')) { @include('../ownsettings.php'); }	# <== deze lijn mag je eventueel verwijderen	
-if (file_exists('./ownsettings.php')) { @include('./ownsettings.php'); }	# <== deze lijn mag je eventueel verwijderen	
+# Include eventueel eigen settings, dit is ook een PHP file. 
+# Settings welke hierin staan zullen de instellingen van deze file overiden.
+#
+# We raden aan om je instellingen in deze eigen file te zetten zodat bij een upgrade
+# je instellingen bewaard blijven.
+#
+if (@file_exists('../ownsettings.php')) { include_once('../ownsettings.php'); }	# <== deze lijn mag je eventueel verwijderen	
+if (file_exists('ownsettings.php')) { include_once('ownsettings.php'); }	# <== deze lijn mag je eventueel verwijderen	
 
-#
-# override NNTP header/comments settings, als er geen aparte NNTP header/comments server is opgegeven, gebruik die van 
-# de NZB server
-#
-if (empty($settings['nntp_hdr']['host'])) {
-	$settings['nntp_hdr'] = $settings['nntp_nzb'];
-} # if 
+# QuickLinks, we testen eerst of hij niet al door iemand anders is gezet in ownsettings.php en
+# anders vullen we hem zelf op. We kunnen dit niet boven ownsettings.php plaatsen want dan missen
+# we de keep_watchlist en keep_downloadlist settings.
+if (!isset($settings['quicklinks'])) {
+	$settings['quicklinks'] = Array();
+	$settings['quicklinks'][] = Array('Reset filters', "home", "?search[tree]=&amp;search[unfiltered]=true", "", Array(SpotSecurity::spotsec_view_spots_index, ''), null);
+	$settings['quicklinks'][] = Array('New', "today", "?search[tree]=&amp;search[unfiltered]=true&amp;search[value][]=New:0", "", Array(SpotSecurity::spotsec_keep_own_seenlist, ''), 'count_newspots');
+	$settings['quicklinks'][] = Array('Watchlist', "fav", "?search[tree]=&amp;search[unfiltered]=true&amp;search[value][]=Watch:0", "", Array(SpotSecurity::spotsec_keep_own_watchlist, ''), 'keep_watchlist');
+	$settings['quicklinks'][] = Array('Downloaded', "download", "?search[tree]=&amp;search[unfiltered]=true&amp;search[value][]=Downloaded:0", "", Array(SpotSecurity::spotsec_keep_own_downloadlist, ''), 'keep_downloadlist');
+	$settings['quicklinks'][] = Array('Recently viewed', "eye", "?search[tree]=&amp;search[unfiltered]=true&amp;search[value][]=Seen:0", "", Array(SpotSecurity::spotsec_keep_own_seenlist, ''), 'keep_seenlist');
+	$settings['quicklinks'][] = Array('My spots', "fav", "?search[tree]=&amp;search[unfiltered]=true&amp;search[value][]=MyPostedSpots:0", "", Array(SpotSecurity::spotsec_post_spot, ''), null);
+	$settings['quicklinks'][] = Array('Statistics', "stats", "?page=statistics", "", Array(SpotSecurity::spotsec_view_statistics, ''), null);
+	$settings['quicklinks'][] = Array('Documentation', "help", "https://github.com/spotweb/spotweb/wiki", "external", Array(SpotSecurity::spotsec_view_spots_index, ''), null);
+} # if isset
+
+# Als de OpenSSL module geladen is, moet de openssl_cnf_path naar een 
+# leesbare configuratie file wijzen
+if ((!is_readable($settings['openssl_cnf_path'])) && (extension_loaded("openssl"))) {
+	throw new InvalidOwnSettingsSettingException("openssl_cnf_path does not contain a readable OpenSSL configuration filepath");
+} # if
+
+# Voeg een sluitende slash toe als die er nog niet is
+if (substr($settings['spotweburl'], -1) != '/') {
+	$settings['spotweburl'] .= '/';
+} # if
+
+# Preferences lokaal niet meer toestaan
+if (isset($settings['prefs'])) {
+	throw new InvalidOwnSettingsSettingException("Preferences are set per user, not in your ownsettings.php");
+} # if
+
+# deprecated settings niet meer toestaan
+$ownsettingserror = '';
+$array = array('blacklist_url', 'cookie_expires', 'deny_robots', 'enable_stacktrace', 'enable_timing', 'external_blacklist', 'nntp_hdr', 
+	'nntp_nzb', 'nntp_post', 'prefetch_image', 'prefetch_nzb', 'retention', 'retrieve_comments', 'retrieve_full', 'retrieve_full_comments', 
+	'retrieve_increment', 'retrieve_newer_than', 'retrieve_reports', 'sendwelcomemail', 'spot_moderation', 'allow_user_template', 
+	'auto_markasread', 'filters', 'index_filter', 'keep_downloadlist', 'keep_watchlist', 'nzb_search_engine', 'nzbhandling', 'show_multinzb',
+	'count_newspots', 'keep_seenlist', 'show_nzbbutton', 'show_updatebutton', 'newuser_grouplist', 'nonauthenticated_userid',
+	'templates');
+foreach ($array as $value) {
+	if (isset($settings[$value])) {
+		$ownsettingserror .= ' * ' . $value . PHP_EOL;
+	} # if
+} # foreach
+
+if (!empty($ownsettingserror)) {
+	throw new InvalidOwnSettingsSettingException("Please remove " . $ownsettingserror . " from your 'ownsettings.php' file, this setting is set in the settings panel from within Spotweb itself");
+} # if
+
+# Controleer op oud type quicklinks (zonder preference link)
+foreach($settings['quicklinks'] as $link) {
+	if (count($link) < 6) {
+		throw new InvalidOwnSettingsSettingException("Quicklinks have to have a preferences check as well. Please modify the quickinks in your ownettings.php or remove them from your ownsetings.php");
+	} # if
+} # foreach
+
+/*
+ * First make sure no database settings are left in the main ownsettings.php anymore, as this is the first
+ * part to deprecating the kludge that settings.php has become completely.
+ */
+if (!empty($settings['db'])) {
+		throw new InvalidOwnSettingsSettingException("You need to remove the database settings from your ownsettings.php file and open install.php from your webbrowser. If you are upgrading, please consult https://github.com/spotweb/spotweb/wiki/Frequently-asked-questions/ first");
+} # if
+
+/*
+ * Allow database settings to be entered in dbsettings.inc.php
+ */
+@include "dbsettings.inc.php";
+if (empty($dbsettings)) {
+		throw new InvalidOwnSettingsSettingException("No databasesettings have been entered, please use the 'install.php' wizard to install and configure Spotweb" . PHP_EOL . 
+									"If you are upgrading from an earlier version of Spotweb, please consult https://github.com/spotweb/spotweb/wiki/Frequently-asked-questions/ first");
+} else {
+	$settings['db'] = $dbsettings;
+} # else
+
+if (file_exists('reallymyownsettings.php')) { include_once('reallymyownsettings.php'); }

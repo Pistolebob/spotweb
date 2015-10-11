@@ -1,0 +1,17 @@
+messages.ser
+nbproject
+nntpdb.sqlite3
+nntpdb.sqlite3-journal
+ownsettings.php
+server-settings.php
+retrieve.sh
+tests/*.jpg
+tests/*.nzb
+.htaccess
+.htpasswd
+.buildpath
+.project
+.settings/
+.DS_Store
+dbsettings.inc.php
+

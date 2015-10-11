@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+	<channel>
+		<title>Spotweb update notifications</title>
+		<description>Major changes are described in this newsfeed</description>
+		<link>https://github.com/spotweb/spotweb/</link>
+		<lastBuildDate>Tue, 29 May 2012 00:00:00 +0100</lastBuildDate>
+		<pubDate>Tue, 29 May 2012 00:00:00 +0100</pubDate>
+		<ttl>1800</ttl>
+
+
+		<item>
+			<title>Added permissions for specific templates</title>
+			<description><![CDATA[Selecting a template can now be restricted by permissions. For each template a user is allowed
+				to be selected it has to have permission 23 with the appropriate permission id.<br />
+				After a run of <i>upgrade-db.php</i> the permissions for the default templates are automaticaly added. 
+			]]></description>
+			<link>https://github.com/spotweb/spotweb/</link>
+			<guid>11</guid>
+			<pubDate>Sun, 29 May 2012 00:00:00 +0100</pubDate>
+			<author>spotweb</author>
+			<!-- Please update these according to the current version, it allows for Spotweb to notify the administrator of the changes required -->
+			<spotweb:schema_version>0.58</spotweb:schema_version>
+			<spotweb:settings_version>0.23</spotweb:settings_version>
+			<spotweb:security_version>0.29</spotweb:security_version>
+			<spotweb:feature_version>0.06</spotweb:feature_version>
+		</item>
+
+
+		<item>
+			<title>Installer changes</title>
+			<description><![CDATA[Spotweb now contains an installer (install.php). In order to be able to safely support this (eg: not every user should be able to run this for an already installed Spotweb) and to allow for multiple type of installations within Spotweb this requires some manual intervention.
+				<br />
+			First, you need to remove the database information from your "ownsettings.php" file for now. You can either run the Spotweb installation wizard (recommended way) but this will create a new user and reset group membership for all users. An alternative way is to create an own <i>dbsettings.inc.php</i> file. Please consult the <a href="https://github.com/spotweb/spotweb/wiki/Frequently-asked-questions">Spotweb wiki</a> for more information about creating this dbsettings.inc.php file.
+			]]></description>
+			<link>https://github.com/spotweb/spotweb/</link>
+			<guid>11</guid>
+			<pubDate>Sun, 6 May 2012 00:00:00 +0100</pubDate>
+			<author>spotweb</author>
+			<!-- Please update these according to the current version, it allows for Spotweb to notify the administrator of the changes required -->
+			<spotweb:schema_version>0.58</spotweb:schema_version>
+			<spotweb:settings_version>0.23</spotweb:settings_version>
+			<spotweb:security_version>0.28</spotweb:security_version>
+			<spotweb:feature_version>0.06</spotweb:feature_version>
+		</item>
+
+		<item>
+			<title>Database changes</title>
+			<description><![CDATA[If certain reports in the reporting newsgroup contain UTF-8 characters in the 'From' header, it 
+				could throw an err trying to insert this data.
+			]]></description>
+			<link>https://github.com/spotweb/spotweb/</link>
+			<guid>11</guid>
+			<pubDate>Mon, 27 Feb 2012 00:00:00 +0100</pubDate>
+			<author>spotweb</author>
+			<!-- Please update these according to the current version, it allows for Spotweb to notify the administrator of the changes required -->
+			<spotweb:schema_version>0.58</spotweb:schema_version>
+			<spotweb:settings_version>0.20</spotweb:settings_version>
+			<spotweb:security_version>0.27</spotweb:security_version>
+			<spotweb:feature_version>0.06</spotweb:feature_version>
+		</item>
+
+		<item>
+			<title>Database changes</title>
+			<description><![CDATA[Added both automatic (from an external source) as user-specified whitelisting. The update on te 
+				database is very small and will process rather quick on most common systems.
+			]]></description>
+			<link>https://github.com/spotweb/spotweb/</link>
+			<guid>11</guid>
+			<pubDate>Mon, 6 Feb 2012 00:00:00 +0100</pubDate>
+			<author>MassD67</author>
+			<!-- Please update these according to the current version, it allows for Spotweb to notify the administrator of the changes required -->
+			<spotweb:schema_version>0.57</spotweb:schema_version>
+			<spotweb:settings_version>0.20</spotweb:settings_version>
+			<spotweb:security_version>0.27</spotweb:security_version>
+			<spotweb:feature_version>0.06</spotweb:feature_version>
+		</item>
+
+
+		<item>
+			<title>Database changes</title>
+			<description><![CDATA[There was a small bug in the way Spotweb stores the spotterid causing it to sometimes create a duplicate key. This change affects the largest tables of your Spotweb installation so upgrading may take quiete a while.
+			]]></description>
+			<link>https://github.com/spotweb/spotweb/</link>
+			<guid>10</guid>
+			<pubDate>Mon, 6 Feb 2012 00:00:00 +0100</pubDate>
+			<author>MassD67</author>
+			<!-- Please update these according to the current version, it allows for Spotweb to notify the administrator of the changes required -->
+			<spotweb:schema_version>0.55</spotweb:schema_version>
+			<spotweb:settings_version>0.19</spotweb:settings_version>
+			<spotweb:security_version>0.27</spotweb:security_version>
+			<spotweb:feature_version>0.06</spotweb:feature_version>
+		</item>
+
+
+
+		<item>
+			<title>Systemwide Custom CSS</title>
+			<description><![CDATA[Users could already specify their own CustomCSS but for some multi-user systems a systemwide
+				custom CSS would be more interesting. Support for this has been added but it requires a small update to the 
+				settings database table hence this notice.
+			]]></description>
+			<link>https://github.com/spotweb/spotweb/</link>
+			<guid>09</guid>
+			<pubDate>Tue, 31 Jan 2012 10:30:00 +0100</pubDate>
+			<author>spotweb</author>
+			<!-- Please update these according to the current version, it allows for Spotweb to notify the administrator of the changes required -->
+			<spotweb:schema_version>0.54</spotweb:schema_version>
+			<spotweb:settings_version>0.19</spotweb:settings_version>
+			<spotweb:security_version>0.27</spotweb:security_version>
+			<spotweb:feature_version>0.06</spotweb:feature_version>
+		</item>
+
+
+		<item>
+			<title>Security group reset</title>
+			<description><![CDATA[The balance between an open Spotweb system and an closed Spotweb system is always a conflict of interest during several types of Spotweb users. 
+			<br /><br />
+			In order to facilitate this better, the default Spotweb security groups have been changed adding two types of groups: "Trusted users" and "Anonymous user - closed system",
+			these groups allow you to support more finegrained security permissions without tinkering too much with the settings in Spotweb.
+			<br /><br />
+			Unfortunately this means we have to reset all security groups within Spotweb - this means that if you customized any security settings within Spotweb that you have to check
+			the system does not respond any differently than you want.
+			<br /><br />
+			If you want a closed system, please remove the "Anonymous" user from the "Anonymous user - open system" group, and add it to the "Anonymous user - closed system" securitygroup.
+			]]></description>
+			<link>https://github.com/spotweb/spotweb/</link>
+			<guid>08</guid>
+			<pubDate>Mon, 23 Dec 2011 00:00:00 +0100</pubDate>
+			<author>spotweb</author>
+			<!-- Please update these according to the current version, it allows for Spotweb to notify the administrator of the changes required -->
+			<spotweb:schema_version>0.54</spotweb:schema_version>
+			<spotweb:settings_version>0.18</spotweb:settings_version>
+			<spotweb:security_version>0.27</spotweb:security_version>
+			<spotweb:feature_version>0.06</spotweb:feature_version>
+		</item>
+
+		<item>
+			<title>Quick Links linked to user preferences</title>
+			<description><![CDATA[A requested feature has finally been implemented: de linking of Quick Links to user preferences. If you change personal
+			preferences, quicklinks should be shown or hidden along with those preferences.<br />
+			If you have quicklinks set manually in your (own)settings.php, they need to be updated in this version. Otherwise everything goes automaticlly.
+			]]></description>
+			<link>https://github.com/spotweb/spotweb/</link>
+			<guid>07</guid>
+			<pubDate>Mon, 5 Dec 2011 09:00:00 +0100</pubDate>
+			<author>nightspirit81</author>
+			<!-- Please update these according to the current version, it allows for Spotweb to notify the administrator of the changes required -->
+			<spotweb:schema_version>0.54</spotweb:schema_version>
+			<spotweb:settings_version>0.18</spotweb:settings_version>
+			<spotweb:security_version>0.26</spotweb:security_version>
+			<spotweb:feature_version>0.06</spotweb:feature_version>
+		</item>
+
+		<item>
+			<title>Optimized spotcounting</title>
+			<description><![CDATA[One of the slowest parts of Spotweb was the counting of new spots in the filterlist. This counting was this slow, that 
+			when a certain amount of spots were exceeded, Spotweb would refrain from counting any newer spots to prevent hanging pages.
+			<br /> <br />
+			In this new version Spotweb uses a slightly less accurate, but much faster, method to determine which spots are new. This requires a very small
+			schema change which will not take a long time to process. <br /> <br />
+			After the database upgrade, a retrieve.php run should be done. This first retrieve run might take a very long time to complete as initial statistics
+			are gathered at that moment. From then on, a very small retrieve.php impact might be shown but should be neglectable. Spotcounts however are not
+			limited anymore and should be much faster.<br />
+			]]></description>
+			<link>https://github.com/spotweb/spotweb/</link>
+			<guid>06</guid>
+			<pubDate>Tue, 29 Nov 2011 21:57:00 +0100</pubDate>
+			<author>spotweb</author>
+			<!-- Please update these according to the current version, it allows for Spotweb to notify the administrator of the changes required -->
+			<spotweb:schema_version>0.54</spotweb:schema_version>
+			<spotweb:settings_version>0.16</spotweb:settings_version>
+			<spotweb:security_version>0.26</spotweb:security_version>
+			<spotweb:feature_version>0.05</spotweb:feature_version>
+		</item>
+
+		<item>
+			<title>Moving settings to database</title>
+			<description><![CDATA[More settings have been moved from (own)settings.php to the database. This should be the last change for current settings to be moved.
+			]]></description>
+			<link>https://github.com/spotweb/spotweb/</link>
+			<guid>07</guid>
+			<pubDate>Tue, 29 Nov 2011 19:45:00 +0100</pubDate>
+			<author>nightspirit81</author>
+			<!-- Please update these according to the current version, it allows for Spotweb to notify the administrator of the changes required -->
+			<spotweb:schema_version>0.54</spotweb:schema_version>
+			<spotweb:settings_version>0.17</spotweb:settings_version>
+			<spotweb:security_version>0.26</spotweb:security_version>
+			<spotweb:feature_version>0.04</spotweb:feature_version>
+		</item>
+		
+		<item>
+			<title>Introducing settings panel</title>
+			<description><![CDATA[All major settings are now set on the Settings panel inside Spotweb. The database upgrade will be very fast, but you will
+			probably need to manually clean your ownsettings.php file.<br />
+			<br />
+			Please note that the old 'Admin Panel' has been renamed to 'User &amp; group management'.
+			]]></description>
+			<link>https://github.com/spotweb/spotweb/</link>
+			<guid>05</guid>
+			<pubDate>Sun, 27 Nov 2011 20:45:00 +0100</pubDate>
+			<author>nightspirit81</author>
+			<!-- Please update these according to the current version, it allows for Spotweb to notify the administrator of the changes required -->
+			<spotweb:schema_version>0.53</spotweb:schema_version>
+			<spotweb:settings_version>0.16</spotweb:settings_version>
+			<spotweb:security_version>0.26</spotweb:security_version>
+			<spotweb:feature_version>0.03</spotweb:feature_version>
+		</item>
+
+		<item>
+			<title>Keeping the IP address for a session</title>
+			<description><![CDATA[In the Spotweb session database table we now keep the IP address of the user which created the session.<br /> This requires a
+			database upgrade which should be done rather quick unless your sessions table is very large (which is unlikely).
+			]]></description>
+			<link>https://github.com/spotweb/spotweb/</link>
+			<guid>04</guid>
+			<pubDate>Sun, 27 Nov 2011 09:45:00 +0100</pubDate>
+			<author>spotweb</author>
+			<!-- Please update these according to the current version, it allows for Spotweb to notify the administrator of the changes required -->
+			<spotweb:schema_version>0.53</spotweb:schema_version>
+			<spotweb:settings_version>0.15</spotweb:settings_version>
+			<spotweb:security_version>0.25</spotweb:security_version>
+			<spotweb:feature_version>0.02</spotweb:feature_version>
+		</item>
+
+		<item>
+			<title>Introduced Spotweb change updates</title>
+			<description><![CDATA[For spotters (or commenters) which are now on the blacklist their comments will not be shown as well. 
+			<br />
+			<br />
+			For all comments an extra button is added which adds the user to the senders' blacklist]]></description>
+			<link>https://github.com/spotweb/spotweb/</link>
+			<guid>03</guid>
+			<pubDate>Fri, 25 Nov 2011 18:53:00 +0100</pubDate>
+			<author>spotweb</author>
+			<!-- Please update these according to the current version, it allows for Spotweb to notify the administrator of the changes required -->
+			<spotweb:schema_version>0.52</spotweb:schema_version>
+			<spotweb:settings_version>0.15</spotweb:settings_version>
+			<spotweb:security_version>0.24</spotweb:security_version>
+			<spotweb:feature_version>0.01</spotweb:feature_version>
+		</item>
+
+		<item>
+			<title>Introduced Spotweb change updates</title>
+			<description><![CDATA[Major changes from now on will be visible from within the Spotweb's administration panel. This allows you to easier decide whether you want to upgrade your Spotweb or why a particular upgrade is taking a long time.
+			<br />
+			<br />
+			Please note that a lot of minor changes will not be communicated here and we recommend to keep your Spotweb installation always up to date.]]></description>
+			<link>https://github.com/spotweb/spotweb/</link>
+			<guid>02</guid>
+			<pubDate>Fri, 25 Nov 2011 07:04:00 +0100</pubDate>
+			<author>spotweb</author>
+			<!-- Please update these according to the current version, it allows for Spotweb to notify the administrator of the changes required -->
+			<spotweb:schema_version>0.52</spotweb:schema_version>
+			<spotweb:settings_version>0.15</spotweb:settings_version>
+			<spotweb:security_version>0.24</spotweb:security_version>
+			<spotweb:feature_version>0.01</spotweb:feature_version>
+		</item>
+
+		<item>
+			<title>Comment moderation</title>
+			<description><![CDATA[Spotweb now also deletes or marks moderated comments in a spot, according to your settings centrally moderated comments will either be marked or just removed. This change requires a change to your database which can take a very long time.]]></description>
+			<link>https://github.com/spotweb/spotweb/</link>
+			<guid>01</guid>
+			<pubDate>Wed, 23 Nov 2011 23:00:00 +0100</pubDate>
+			<author>spotweb</author>
+			<!-- Please update these according to the current version, it allows for Spotweb to notify the administrator of the changes required -->
+			<spotweb:schema_version>0.52</spotweb:schema_version>
+			<spotweb:settings_version>0.15</spotweb:settings_version>
+			<spotweb:security_version>0.24</spotweb:security_version>
+			<spotweb:feature_version>0.00</spotweb:feature_version>
+		</item>
+	</channel>
+</rss>
+<!--
+	This feed is maintained manually. If a major (user-visible)change is introduced, or an upgrade-db.php run is required,
+	please add an entry to this RSS feed file detailing the change. If a schema change is required, please add an indication 
+	of the impact of the schemachange (eg: will it touch very large tables or not).
+-->
